@@ -1,0 +1,27 @@
+@import "tailwindcss";
+
+@theme {
+  --color-forest: #06110c;
+  --color-char: #171717;
+  --color-raised: #202020;
+  --color-crimson: #a31c1b;
+  --color-crimson-hi: #bd2827;
+  --font-display: "Fraunces", Georgia, serif;
+  --font-sans: "Hanken Grotesk", system-ui, sans-serif;
+}
+
+html { background: var(--color-forest); color-scheme: dark; }
+body { font-family: var(--font-sans); color: #fff; min-height: 100vh; -webkit-font-smoothing: antialiased; }
+::selection { background: var(--color-crimson); color: #fff; }
+:focus-visible { outline: 2px solid #fff; outline-offset: 3px; border-radius: 6px; }
+
+.num { font-family: var(--font-display); font-variation-settings: "opsz" 144; font-weight: 900; font-feature-settings: "lnum", "tnum"; }
+
+@keyframes lamp { 0%,100% { box-shadow: 0 0 0 0 rgb(163 28 27 / .7); } 50% { box-shadow: 0 0 0 9px rgb(163 28 27 / 0); } }
+.lamp { animation: lamp 1.6s ease-out infinite; }
+@keyframes rise { from { transform: translateY(0) scale(.8); opacity: 0; } 15% { opacity: 1; } to { transform: translateY(-220px) scale(1.5); opacity: 0; } }
+.rise { animation: rise 2.4s ease-out forwards; }
+@keyframes shimmer { from { opacity: .45; } to { opacity: .9; } }
+.skeleton { background: #ffffff14; border-radius: 10px; animation: shimmer .9s ease-in-out infinite alternate; }
+
+@media (prefers-reduced-motion: reduce) { .lamp, .rise, .skeleton { animation: none; } }

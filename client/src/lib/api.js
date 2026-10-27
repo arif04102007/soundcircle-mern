@@ -31,7 +31,19 @@ export async function api(path, { method = "GET", body, auth = true } = {}) {
   return data;
 }
 
-const FALLBACK_ICE = [{ urls: "stun:stun.l.google.com:19302" }];
+const FALLBACK_ICE = [
+  { urls: ["stun:stun.l.google.com:19302", "stun:stun1.l.google.com:19302"] },
+  {
+    urls: ["turn:openrelay.metered.ca:80", "turn:openrelay.metered.ca:443", "turn:openrelay.metered.ca:443?transport=tcp"],
+    username: "openrelayproject",
+    credential: "openrelayproject",
+  },
+];
 export async function getIceServers() {
-  try { return (await api("/config/ice", { auth: false })).iceServers; } catch { return FALLBACK_ICE; }
+  try {
+    const data = await api("/config/ice", { auth: false });
+    return data.iceServers?.length ? data.iceServers : FALLBACK_ICE;
+  } catch {
+    return FALLBACK_ICE;
+  }
 }

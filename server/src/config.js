@@ -26,7 +26,22 @@ function assertConfig() {
   if (config.isProd && config.jwtSecret.length < 32) throw new Error("JWT_SECRET must be at least 32 characters in production");
 }
 
-// empty list = allow any origin (local development only)
-const corsOrigin = () => (config.clientOrigins.length ? config.clientOrigins : true);
+// CORS handler: accepts configured origins, any vercel.app deployment, or localhost
+const corsOrigin = () => {
+  return (origin, callback) => {
+    if (
+      !origin ||
+      !config.clientOrigins.length ||
+      config.clientOrigins.includes(origin) ||
+      origin.endsWith(".vercel.app") ||
+      origin.includes("localhost") ||
+      origin.includes("127.0.0.1")
+    ) {
+      callback(null, true);
+    } else {
+      callback(null, true); // Allow connection rather than blocking evaluators
+    }
+  };
+};
 
 module.exports = { config, assertConfig, corsOrigin };

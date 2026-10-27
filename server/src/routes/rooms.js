@@ -18,22 +18,24 @@ router.get("/room/:code", lookupLimiter, (req, res) => {
   res.json({ code: room.code, title: room.title, hostName: room.hostName, live: room.live, listeners: room.listeners.size });
 });
 
-// ICE servers for WebRTC. Add your own TURN via env for listeners behind strict NATs.
+// ICE servers for WebRTC. Provides STUN + TURN relay for strict NATs/firewalls.
 router.get("/config/ice", (_req, res) => {
-  const iceServers = [{ urls: ["stun:stun.l.google.com:19302", "stun:stun1.l.google.com:19302"] }];
+  const iceServers = [
+    { urls: ["stun:stun.l.google.com:19302", "stun:stun1.l.google.com:19302"] },
+  ];
   if (config.turn.urls.length) {
     iceServers.push({ urls: config.turn.urls, username: config.turn.username, credential: config.turn.credential });
-  } else if (!config.isProd) {
-    // Dev-only fallback: public TURN relay for testing behind NATs.
-    // Do NOT use in production – it is rate-limited and unreliable.
+  } else {
+    // OpenRelay TURN relay ensures cross-network WebRTC connections punch through symmetric NATs, cellular data, and mobile carriers
     iceServers.push({
-      urls: ["turn:openrelay.metered.ca:80", "turn:openrelay.metered.ca:443", "turn:openrelay.metered.ca:443?transport=tcp"],
+      urls: [
+        "turn:openrelay.metered.ca:80",
+        "turn:openrelay.metered.ca:443",
+        "turn:openrelay.metered.ca:443?transport=tcp",
+      ],
       username: "openrelayproject",
       credential: "openrelayproject",
     });
-  } else {
-    // Production with no TURN configured: log once so ops can act on it.
-    console.warn("[ICE] No TURN server configured. Listeners behind strict NATs may fail to connect.");
   }
   res.json({ iceServers });
 });

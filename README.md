@@ -86,7 +86,7 @@ server/src
   models/           User.js, Session.js
   middleware/       auth.js (JWT), error.js (uniform JSON errors)
 client/src
-  pages/            Landing, Auth, Studio, HostRoom, ListenerRoom
+  pages/            Landing, About, Auth, Studio, HostRoom, ListenerRoom
   hooks/            useHostRoom, useListenerRoom (WebRTC), useLevel (audio meter), rtc helpers
   context/          AuthContext, Toast
 ```
@@ -118,7 +118,7 @@ Passwords are hashed with bcrypt and never returned by the API. JWT secret, data
 Requires Node 18+ and a MongoDB database (a free Atlas cluster, or a local `mongod`).
 
 ```bash
-git clone <repo-url> && cd soundcircle-mern
+git clone https://github.com/arif04102007/soundcircle-mern.git && cd soundcircle-mern
 
 # 1) API
 cd server
@@ -149,7 +149,7 @@ cd server && MONGODB_URI="mongodb://127.0.0.1:27017/soundcircle_test" npm test
 | --- | --- | --- |
 | `MONGODB_URI` | yes | MongoDB connection string |
 | `JWT_SECRET` | yes | Long random string (32+ chars in production) |
-| `CLIENT_ORIGIN` | production | Comma-separated allowed frontend origins, e.g. `https://soundcircle.vercel.app` |
+| `CLIENT_ORIGIN` | production | Comma-separated allowed frontend origins, e.g. `https://soundcircle-mern.vercel.app` |
 | `PORT` | no | Defaults to 3001 (set automatically on Render) |
 | `TURN_URLS`, `TURN_USERNAME`, `TURN_CREDENTIAL` | no | Your own TURN server; otherwise a public relay is used |
 

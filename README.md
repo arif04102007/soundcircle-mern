@@ -2,7 +2,7 @@
 
 **Turn one laptop into everyone's headphones.** SoundCircle streams a laptop's audio live to every phone in the room through a 4-digit code. No app to install, no cables, no pairing.
 
-- **Live app:** `https://soundcircle-app.vercel.app`
+- **Live app:** `https://soundcircle-mern.vercel.app`
 - **API health check:** `https://soundcircle-mern.onrender.com/api/health`
 - **Demo video (3–5 min):** `<ADD GOOGLE DRIVE LINK, set to "Anyone with the link can view">`
 - **Repository:** `https://github.com/arif04102007/soundcircle-mern`

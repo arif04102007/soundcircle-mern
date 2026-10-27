@@ -2,10 +2,10 @@
 
 **Turn one laptop into everyone's headphones.** SoundCircle streams a laptop's audio live to every phone in the room through a 4-digit code. No app to install, no cables, no pairing.
 
-- **Live app:** `<ADD VERCEL URL>`
-- **API health check:** `<ADD RENDER URL>/api/health`
+- **Live app:** `https://soundcircle-app.vercel.app`
+- **API health check:** `/api/health`
 - **Demo video (3–5 min):** `<ADD GOOGLE DRIVE LINK, set to "Anyone with the link can view">`
-- **Repository:** `<ADD GITHUB URL>`
+- **Repository:** `https://github.com/arif04102007/soundcircle-mern`
 
 > **Origin note.** This is a ground-up MERN rebuild of my earlier SoundCircle/VibeSync prototype (a client-only React app with an in-memory Socket.io server and Supabase auth). The v2 backend, database, authentication, session history, reconnection handling, tests and UI are all new. Only the general WebRTC signaling idea carried over.
 

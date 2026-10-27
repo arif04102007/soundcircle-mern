@@ -1,27 +1,70 @@
 @import "tailwindcss";
 
 @theme {
-  --color-forest: #06110c;
-  --color-char: #171717;
-  --color-raised: #202020;
-  --color-crimson: #a31c1b;
+  /* Backgrounds */
+  --color-void:    #080808;
+  --color-forest:  #080808; /* kept for compat — mapped to void */
+  --color-char:    #131313;
+  --color-raised:  #1c1c1c;
+
+  /* Primary accent — Electric Lavender */
+  --color-lavender:    #A66BFF;
+  --color-lavender-hi: #BF8FFF;
+  --color-lavender-dim:#7B40D4;
+
+  /* Secondary accent — Neon Rose */
+  --color-rose:    #FF2D95;
+  --color-rose-hi: #FF57A8;
+
+  /* Live / danger — kept red for universal "On Air" UX */
+  --color-crimson:    #a31c1b;
   --color-crimson-hi: #bd2827;
+
   --font-display: "Fraunces", Georgia, serif;
-  --font-sans: "Hanken Grotesk", system-ui, sans-serif;
+  --font-sans:    "Hanken Grotesk", system-ui, sans-serif;
 }
 
-html { background: var(--color-forest); color-scheme: dark; }
+html { background: var(--color-void); color-scheme: dark; }
 body { font-family: var(--font-sans); color: #fff; min-height: 100vh; -webkit-font-smoothing: antialiased; }
-::selection { background: var(--color-crimson); color: #fff; }
-:focus-visible { outline: 2px solid #fff; outline-offset: 3px; border-radius: 6px; }
+::selection { background: var(--color-lavender); color: #fff; }
+:focus-visible { outline: 2px solid var(--color-lavender); outline-offset: 3px; border-radius: 6px; }
 
 .num { font-family: var(--font-display); font-variation-settings: "opsz" 144; font-weight: 900; font-feature-settings: "lnum", "tnum"; }
 
+/* ── Live indicator pulse ── */
 @keyframes lamp { 0%,100% { box-shadow: 0 0 0 0 rgb(163 28 27 / .7); } 50% { box-shadow: 0 0 0 9px rgb(163 28 27 / 0); } }
 .lamp { animation: lamp 1.6s ease-out infinite; }
+
+/* ── Lavender glow pulse (live code digits etc.) ── */
+@keyframes glow-pulse { 0%,100% { box-shadow: 0 0 18px 0 rgb(166 107 255 / .25); } 50% { box-shadow: 0 0 36px 4px rgb(166 107 255 / .55); } }
+.glow-lavender { animation: glow-pulse 2s ease-in-out infinite; }
+
+/* ── Background waveform bars ── */
+@keyframes wave-rise { from { transform: scaleY(0.25); } to { transform: scaleY(1); } }
+.wave-bar { transform-origin: bottom; }
+
+/* ── Reaction floaters ── */
 @keyframes rise { from { transform: translateY(0) scale(.8); opacity: 0; } 15% { opacity: 1; } to { transform: translateY(-220px) scale(1.5); opacity: 0; } }
 .rise { animation: rise 2.4s ease-out forwards; }
+
+/* ── Skeleton loaders ── */
 @keyframes shimmer { from { opacity: .45; } to { opacity: .9; } }
 .skeleton { background: #ffffff14; border-radius: 10px; animation: shimmer .9s ease-in-out infinite alternate; }
 
-@media (prefers-reduced-motion: reduce) { .lamp, .rise, .skeleton { animation: none; } }
+/* ── Gradient headline ── */
+.gradient-text {
+  background: linear-gradient(120deg, #ffffff 0%, #A66BFF 45%, #FF2D95 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradient-pan 5s linear infinite;
+}
+@keyframes gradient-pan { from { background-position: 0% center; } to { background-position: 200% center; } }
+
+/* ── Subtle float ── */
+@keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
+.float { animation: float 3.5s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) { .lamp, .rise, .skeleton, .wave-bar, .float, .gradient-text, .glow-lavender { animation: none !important; } }
+

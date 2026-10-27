@@ -15,7 +15,14 @@ export function ToastProvider({ children }) {
       {children}
       <div aria-live="polite" className="fixed bottom-5 left-1/2 z-50 flex w-[min(92vw,28rem)] -translate-x-1/2 flex-col gap-2">
         {items.map((t) => (
-          <div key={t.id} className={`rounded-xl border px-4 py-3 text-sm font-medium shadow-2xl ${t.type === "error" ? "border-crimson bg-crimson text-white" : "border-white/15 bg-char text-white"}`}>
+          <div
+            key={t.id}
+            className={`rounded-2xl border px-5 py-3.5 text-sm font-semibold shadow-2xl backdrop-blur-md transition-all ${
+              t.type === "error"
+                ? "border-rose/40 bg-rose text-white shadow-[0_0_25px_rgba(255,45,149,0.4)]"
+                : "border-lavender/40 bg-char text-white shadow-[0_0_25px_rgba(166,107,255,0.25)]"
+            }`}
+          >
             {t.message}
           </div>
         ))}

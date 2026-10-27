@@ -220,7 +220,10 @@ function initSockets(httpServer) {
 
   // Close rooms nobody has touched for a few hours.
   const sweeper = setInterval(() => {
-    for (const room of rooms.values()) if (Date.now() - room.lastActivity > config.staleRoomMs) closeRoom(room, "expired");
+    const now = Date.now();
+    for (const room of rooms.values()) if (now - room.lastActivity > config.staleRoomMs) closeRoom(room, "expired");
+    // Prune expired IP rate-limit entries to prevent unbounded Map growth.
+    for (const [ip, e] of failedJoins) if (now > e.resetAt) failedJoins.delete(ip);
   }, 5 * 60_000);
   sweeper.unref();
 

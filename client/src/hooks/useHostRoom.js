@@ -162,7 +162,7 @@ export function useHostRoom({ title }) {
   const endRoom = useCallback(() => {
     releaseStream();
     socketRef.current?.emit("host:end", {}, () => { setLive(false); setStatus("ended"); });
-    setTimeout(() => setStatus((s) => (s === "ended" ? s : "ended")), 1500);
+    setTimeout(() => setStatus((s) => (["ended", "taken_over", "error"].includes(s) ? s : "ended")), 1500);
   }, [releaseStream]);
 
   return { status, error, room, live, stream, online, listeners, reactions, startLive, stopLive, endRoom };

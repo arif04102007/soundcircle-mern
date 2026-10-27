@@ -52,7 +52,15 @@ export function useListenerRoom({ code, name, audioRef }) {
 
     const join = () =>
       socket.emit("listener:join", { code, name: nameRef.current, clientId: clientId() }, (res) => {
-        if (!res?.ok) { setError({ code: res?.code, message: res?.error || "Couldn't join this room." }); setStatus("error"); socket.disconnect(); return; }
+        if (!res?.ok) {
+          setError({ code: res?.code, message: res?.error || "Couldn't join this room." });
+          setStatus("error");
+          // Only permanently disconnect on non-recoverable errors (room gone, rate-limited).
+          // On transient errors during reconnect, the socket may retry naturally.
+          const permanent = ["NOT_FOUND", "RATE_LIMITED", "ALREADY_IN_ROOM"].includes(res?.code);
+          if (permanent || !joinedOnce) socket.disconnect();
+          return;
+        }
         joinedOnce = true;
         hostIdRef.current = res.room.hostId;
         setRoom(res.room);

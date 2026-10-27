@@ -11,7 +11,7 @@ export const END_REASONS = {
   host_disconnected: "Host disconnected",
   expired: "Expired (idle)",
   server_restart: "Server restarted",
-  server_shutdown: "Server restarted",
+  server_shutdown: "Server shut down",
 };
 export const randomGuestName = () => `Guest ${Math.floor(100 + Math.random() * 900)}`;
 export const savedName = () => localStorage.getItem("sc_name") || "";

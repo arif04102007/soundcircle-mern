@@ -15,7 +15,11 @@ export function AuthProvider({ children }) {
     if (!getToken()) return;
     api("/auth/me")
       .then((d) => setUser(d.user))
-      .catch(() => {})
+      .catch((err) => {
+        // Only clear the session on a real 401 (token rejected by server).
+        // Network errors (status 0) should not log the user out silently.
+        if (err.status === 401) logout();
+      })
       .finally(() => setLoading(false));
   }, [logout]);
 
